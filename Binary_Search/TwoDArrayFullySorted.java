@@ -41,7 +41,7 @@ public class TwoDArrayFullySorted {
             return new int[]{-1,-1};
         }
         if(rows == 1) {
-            return binarySearch(matrix, 0, 0, cols, target);
+            return binarySearch(matrix, 0, 0, cols -1, target);
         }
 
         int rLowerBound = 0;
@@ -65,21 +65,22 @@ public class TwoDArrayFullySorted {
         }
 
         // now we have two rows
+        // 1. check in the mid columns for the target
         if(matrix[rLowerBound][cMid] == target) {
             return new int[]{rLowerBound, cMid};
         }
         if(matrix[rLowerBound + 1][cMid] == target) {
             return new int[]{rLowerBound + 1, cMid};
         }
-
-        if(target < matrix[rLowerBound][cMid]) {
+        // 2. check at the 1st row
+        if(target <= matrix[rLowerBound][cMid - 1]) {
             return binarySearch(matrix, rLowerBound, 0, cMid -1, target);
         }
-        if(target > matrix[rLowerBound][cMid]) {
+        if(target >= matrix[rLowerBound][cMid + 1] && target <= matrix[rLowerBound][cols - 1]) {
             return binarySearch(matrix, rLowerBound, cMid + 1, cols -1, target);
         }
-
-        if (target <= matrix[rLowerBound + 1][cMid]) {
+        // 3. check at the 2nd row
+        if (target <= matrix[rLowerBound + 1][cMid - 1]) {
             return binarySearch(matrix, rLowerBound + 1, 0, cMid-1, target);
         } else {
             return binarySearch(matrix, rLowerBound + 1, cMid + 1, cols - 1, target);
